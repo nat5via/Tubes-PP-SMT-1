@@ -1,3 +1,18 @@
+#Main program
+print("="*58)
+print("\t\t    Selamat Datang!")
+print("\t    Silakan pilih menu di bawah ini!")
+print("="*58)
+print("\t (1) Lihat Daftar Penjualan")
+print("\t (2) Lihat Daftar Penghasilan Setiap Pramuniaga")
+print("\t (3) Lihat Daftar Bonus Pramuniaga")
+print("\t (4) Keluar")
+print("="*58)
+print("\t\t~~~ Terima Kasih ~~~")
+print("="*58)
+pilihan_menu = input("Pilih menu: ")
+print()
+
 #Soal bagian a
 def baca_data(filename):
     #baca data line pertama dari file txt
@@ -57,7 +72,8 @@ new_penjualan = convert_to_int(penjualan)
 #value dari senin hingga jumat dijumlah
 def penghasilan():
     #Total penjualan
-    print("-Total Penjualan setiap pramuniaga di akhir minggu (tanpa upah):")
+    print("Total Penjualan setiap pramuniaga di akhir minggu (tanpa upah):")
+    print("-"*63)
     
     #Total Aradea
     dict_aradea = new_penjualan[0]
@@ -80,7 +96,8 @@ def penghasilan():
     print()
 
     #Gaji tetap (not include insentif + bonus)
-    print("-Penghasilan pramuniaga di akhir minggu (tidak termasuk insentif + bonus):")
+    print("Penghasilan pramuniaga di akhir minggu (tidak termasuk insentif + bonus):")
+    print("-"*73)
     total_aradea = (sum(values_aradea) + 100)*1000
     total_safwan = (sum(values_safwan) + 100)*1000
     total_fatima = (sum(values_fatima) + 100)*1000
@@ -104,7 +121,8 @@ def penghasilan():
         total_fatima = total_fatima + insentif_fatima
     
     #Gaji tetap + insentif (not include bonus)
-    print("-Penghasilan pramuniaga di akhir minggu + insentif (tidak termasuk bonus):")
+    print("Penghasilan pramuniaga di akhir minggu + insentif (tidak termasuk bonus):")
+    print("-"*73)
     print(">","Aradea:", int(total_aradea))
     print(">","Safwan:", int(total_safwan))
     print(">","Fatima:", int(total_fatima))
@@ -112,7 +130,8 @@ def penghasilan():
 
 #soal bagian c
 def bonus():
-    print("-Pramuniaga yang mendapatkan bonus:")
+    print("\tPramuniaga yang mendapatkan bonus:")
+    print("-"*55)
    #cek Aradea
     dict_aradea = new_penjualan[0]
     values_aradea = dict_aradea.values()
@@ -142,12 +161,23 @@ def bonus():
         bonus_fatima = int(total_fatima + 1000000)
         print("> Fatima mendapatkan bonus sebesar:", bonus_fatima)
         print(" ", "Total penghasilan akhir: ", total_fatima + bonus_fatima)
-
-#Main program
-print("Diketahui Total Penjualan Masing-masing Pramuniaga:")
-print_data(penjualan) #print data dari flie teks
-print("*"*55) #pembatas antar soal
-print()
-penghasilan()
-print("*"*55) #pembatas antar soal
-bonus()
+    print()
+    
+#Main program (run)
+while pilihan_menu != "4":
+    if pilihan_menu == "1":
+        print("\tDaftar Penjualan Pramuniaga Selama 5 Hari")
+        print("-"*55)
+        print_data(penjualan)
+        pilihan_menu = input("Pilih menu: ")
+        print()
+    if pilihan_menu == "2":
+        penghasilan()
+        pilihan_menu = input("Pilih menu: ")
+        print()
+    if pilihan_menu == "3":
+        bonus()
+        pilihan_menu = input("Pilih menu: ")
+        print()
+    if pilihan_menu == "4":
+        print("Terima Kasih!")
