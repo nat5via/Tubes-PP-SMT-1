@@ -1,131 +1,122 @@
-#Main program
+#UI pilihan menu
 print("="*58)
 print("\t\t    Selamat Datang!")
 print("\t    Silakan pilih menu di bawah ini!")
 print("="*58)
-print("\t (1) Lihat Daftar Penjualan")
-print("\t (2) Lihat Daftar Penghasilan Setiap Pramuniaga")
-print("\t (3) Lihat Daftar Bonus Pramuniaga")
-print("\t (4) Keluar")
+print("\t (1) Lihat Daftar Penjualan")                      #Melihat list "penjualan"
+print("\t (2) Lihat Daftar Penghasilan Setiap Pramuniaga")  #Melihat fungsi penghasilan
+print("\t (3) Lihat Daftar Bonus Pramuniaga")               #Melihat fungsi bonus
+print("\t (4) Keluar")                                      #Keluar dari program
 print("="*58)
-print("\t\t~~~ Terima Kasih ~~~")
+print("\t  Created by: Novia Natasya (1301213259)")
 print("="*58)
-pilihan_menu = input("Pilih menu: ")
+pilihan_menu = input("Pilih menu: ") # Meminta user untuk memilih menu yang tersedia
 print()
 
 #Soal bagian a
 def baca_data(filename):
-    #baca data line pertama dari file txt
-    file = open(filename, "r")
-    teks = file.readline().replace("\n","")
-    
-    #buat list kosong
-    penjualan = []
+    file = open(filename, "r")  # baca data line pertama dari file txt
+    teks = file.readline() # ganti readlines
 
-    while teks != "":
-        dict = {}
-        #lakukan split di sini pada teks
-        a = teks.split()
-        #susun data yang dibaca ke dalam dictionary
-        b = {"nama": a[0],
-             "senin": a[1],
-             "selasa": a[2],
-             "rabu": a[3],
-             "kamis": a[4],
-             "jumat": a[5]} #list nilai hari
-        dict[a[0]] = b #menambahkan key dan value
-        #kemudian dictionary diappend ke dalam list
-        penjualan.append(b) #dict[key] = value
-        #baca data baris selanjutnya
-        teks = file.readline().replace("\n","")
+    penjualan = [] #buat list kosong
+    while teks != "": #for item in teks
+        dict_penjualan = {}
+        a = teks.split() # ubah file teks per baris menjadi list 
+        b = {"nama": a[0],    # susun data yang dibaca ke dalam dictionary
+             "senin": int(a[1]),
+             "selasa": int(a[2]),
+             "rabu": int(a[3]),
+             "kamis": int(a[4]),
+             "jumat": int(a[5])} 
+        dict_penjualan[a[0]] = b  # menambahkan key dan value
+        penjualan.append(b) # dictionary diappend (ditambahkan) ke dalam list
+        teks = file.readline() # baca data baris selanjutnya
     #print(penjualan)
-
     return penjualan
+
+nama_file = "daftarpramuniaga.txt"
+penjualan = baca_data(nama_file)  # Memanggil fungsi baca_data
+
+#fungsi untuk mengakses pasangan key:value nama (list comprehension)
+def print_name():
+    names = [names["nama"] for names in penjualan]
+    return names
+
+list_nama = print_name() # Membuat list nama pramuniaga = [orang 1, orang 2, orang 3]
 
 #fungsi utk menampilkan data penjualan
 def print_data(data):
-    list_orang = ["Aradea", "Safwan", "Fatima"]
     i = 0
     for elemen in data: #elemen = dictionary dari list penjualan
-        print(">",list_orang[i])
+        print(">",list_nama[i])
         for key in elemen: #key dari setiap dict yang ada di list penjualan
             if key != "nama":
                 print("---","Hari",key,"=",elemen[key])
         print()
         i += 1
 
-#run dari soal a
-nama_file = "daftarpramuniaga.txt"
-penjualan = baca_data(nama_file)
-
-#Hapus key[nama] dalam list
-penjualan = [{k: v for k, v in d.items() if k != 'nama'} for d in penjualan]
-
-#valuenya dijadiin int
-def convert_to_int(lst):
-    result = [dict([a, int(x)] for a, x in b.items()) for b in lst]
-    return result
-
-new_penjualan = convert_to_int(penjualan)
+new_penjualan = [{k: v for k, v in d.items() if k != 'nama'} for d in penjualan] #Hapus key nama di setiap dict dalam list
 
 #soal bagian b
-#value dari senin hingga jumat dijumlah
-def penghasilan():
+def penghasilan(): #value dari senin hingga jumat dijumlah
     #Total penjualan
     print("Total Penjualan setiap pramuniaga di akhir minggu (tanpa upah):")
     print("-"*63)
     
     #Total Aradea
-    dict_aradea = new_penjualan[0]
-    values_aradea = dict_aradea.values()
-    total_aradea = sum(values_aradea)
+    nama1 = list_nama[0]
+    dict_orang1 = new_penjualan[0]
+    values_orang1 = dict_orang1.values()
+    total_orang1 = sum(values_orang1)
 
     #Total Safwan
-    dict_safwan = new_penjualan[1]
-    values_safwan = dict_safwan.values()
-    total_safwan = sum(values_safwan)
+    nama2 = list_nama[1]
+    dict_orang2 = new_penjualan[1]
+    values_orang2 = dict_orang2.values()
+    total_orang2 = sum(values_orang2)
 
     #Total Fatima
-    dict_fatima = new_penjualan[2]
-    values_fatima = dict_fatima.values()
-    total_fatima = sum(values_fatima)
+    nama3 = list_nama[2]
+    dict_orang3 = new_penjualan[2]
+    values_orang3 = dict_orang3.values()
+    total_orang3 = sum(values_orang3)
 
-    print(">","Aradea:", total_aradea*1000)
-    print(">","Safwan:", total_safwan*1000)
-    print(">","Fatima:", total_fatima*1000)
+    print(">", nama1, ":", total_orang1*1000)
+    print(">", nama2, ":", total_orang2*1000)
+    print(">", nama3, ":", total_orang3*1000)
     print()
 
     #Gaji tetap (not include insentif + bonus)
     print("Penghasilan pramuniaga di akhir minggu (tidak termasuk insentif + bonus):")
     print("-"*73)
-    total_aradea = (sum(values_aradea) + 100)*1000
-    total_safwan = (sum(values_safwan) + 100)*1000
-    total_fatima = (sum(values_fatima) + 100)*1000
-    print(">","Aradea:", total_aradea)
-    print(">","Safwan:", total_safwan)
-    print(">","Fatima:", total_fatima)
+    total_orang1 = (sum(values_orang1) + 100*5)*1000
+    total_orang2 = (sum(values_orang2) + 100*5)*1000
+    total_orang3 = (sum(values_orang3) + 100*5)*1000
+    print(">", nama1, ":", total_orang1)
+    print(">", nama2, ":", total_orang2)
+    print(">", nama3, ":", total_orang3)
     print()
 
     #insentif
     #cek Aradea
-    if total_aradea > 0:
-        insentif_aradea = total_aradea*25/100
-        total_aradea = total_aradea + insentif_aradea
+    if total_orang1 > 0:
+        insentif_orang1 = total_orang1*25/1000
+        total_orang1 = total_orang1 + insentif_orang1
     #cek Safwan
-    if total_safwan > 0:
-        insentif_safwan = total_aradea*25/100
-        total_safwan = total_safwan + insentif_safwan
+    if total_orang2 > 0:
+        insentif_orang2 = total_orang2*25/1000
+        total_orang2 = total_orang2 + insentif_orang2
     #cek Fatima
-    if total_fatima > 0:
-        insentif_fatima = total_aradea*25/100
-        total_fatima = total_fatima + insentif_fatima
+    if total_orang3 > 0:
+        insentif_orang3 = total_orang3*25/1000
+        total_orang3 = total_orang3 + insentif_orang3
     
     #Gaji tetap + insentif (not include bonus)
     print("Penghasilan pramuniaga di akhir minggu + insentif (tidak termasuk bonus):")
     print("-"*73)
-    print(">","Aradea:", int(total_aradea))
-    print(">","Safwan:", int(total_safwan))
-    print(">","Fatima:", int(total_fatima))
+    print(">", nama1, ":", int(total_orang1))
+    print(">", nama2, ":", int(total_orang2))
+    print(">", nama3, ":", int(total_orang3))
     print()
 
 #soal bagian c
@@ -133,51 +124,60 @@ def bonus():
     print("\tPramuniaga yang mendapatkan bonus:")
     print("-"*55)
    #cek Aradea
-    dict_aradea = new_penjualan[0]
-    values_aradea = dict_aradea.values()
-    total_aradea = sum(values_aradea)
-    total_aradea = (sum(values_aradea) + 100)*1000
-    if total_aradea > 20000000:
-        bonus_aradea = int(total_aradea + 1000000)
-        print("> Aradea mendapatkan bonus sebesar:", bonus_aradea)
-        print("\tTotal penghasilan akhir: ", total_aradea + bonus_aradea)
+    nama1 = list_nama[0]
+    dict_orang1 = new_penjualan[0]
+    values_orang1 = dict_orang1.values()
+    total_orang1 = sum(values_orang1)
+    total_orang1 = (sum(values_orang1) + 100)*1000
+    if total_orang1 > 20000000:
+        bonus_orang1 = int(total_orang1 + 1000000)
+        print(">", nama1, "mendapatkan bonus sebesar:", bonus_orang1)
+        print("\tTotal penghasilan akhir: ", total_orang1 + bonus_orang1)
 
     #cek Safwan
-    dict_safwan = new_penjualan[1]
-    values_safwan = dict_safwan.values()
-    total_safwan = sum(values_safwan)
-    total_safwan = (sum(values_safwan) + 100)*1000
-    if total_safwan > 20000000:
-        bonus_safwan = int(total_safwan + 1000000)
-        print("> Safwan mendapatkan bonus sebesar:", bonus_safwan)
-        print("\tTotal penghasilan akhir: ", total_safwan + bonus_safwan)
+    nama2 = list_nama[1]
+    dict_orang2 = new_penjualan[1]
+    values_orang2 = dict_orang2.values()
+    total_orang2 = sum(values_orang2)
+    total_orang2 = (sum(values_orang2) + 100)*1000
+    if total_orang2 > 20000000:
+        bonus_orang2 = int(total_orang2 + 1000000)
+        print(">", nama2, "mendapatkan bonus sebesar:", bonus_orang2)
+        print("\tTotal penghasilan akhir: ", total_orang2 + bonus_orang2)
 
     #cek Fatima
-    dict_fatima = new_penjualan[2]
-    values_fatima = dict_fatima.values()
-    total_fatima = sum(values_fatima)
-    total_fatima = (sum(values_fatima) + 100)*1000
-    if total_fatima > 20000000:
-        bonus_fatima = int(total_fatima + 1000000)
-        print("> Fatima mendapatkan bonus sebesar:", bonus_fatima)
-        print(" ", "Total penghasilan akhir: ", total_fatima + bonus_fatima)
+    nama3 = list_nama[2]
+    dict_orang3 = new_penjualan[2]
+    values_orang3 = dict_orang3.values()
+    total_orang3 = sum(values_orang3)
+    total_orang3 = (sum(values_orang3) + 100)*1000
+    if total_orang3 > 20000000:
+        bonus_orang3 = int(total_orang3 + 1000000)
+        print(">", nama3, "mendapatkan bonus sebesar:", bonus_orang3)
+        print(" ", "Total penghasilan akhir: ", total_orang3 + bonus_orang3)
     print()
     
 #Main program (run)
-while pilihan_menu != "4":
+while pilihan_menu != "4":  #Fungsi while untuk looping multiple choices
     if pilihan_menu == "1":
         print("\tDaftar Penjualan Pramuniaga Selama 5 Hari")
         print("-"*55)
         print_data(penjualan)
         pilihan_menu = input("Pilih menu: ")
         print()
-    if pilihan_menu == "2":
+    elif pilihan_menu == "2":
         penghasilan()
         pilihan_menu = input("Pilih menu: ")
         print()
-    if pilihan_menu == "3":
+    elif pilihan_menu == "3":
         bonus()
         pilihan_menu = input("Pilih menu: ")
         print()
-    if pilihan_menu == "4":
-        print("Terima Kasih!")
+    else:
+        print("Angka yang dimasukkan tidak valid!")
+        print()
+        pilihan_menu = input("Pilih menu: ")
+        print()
+print("Terima Kasih!")
+        
+        
